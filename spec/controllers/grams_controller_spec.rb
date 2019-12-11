@@ -14,4 +14,13 @@ RSpec.describe GramsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
   end
+
+  describe "grams#create action" do
+    it "should successfully create a new gram in the database" do
+      msg = "This is a fountain."
+      post :create, params: { gram: { message: msg } }
+      expect(response).to redirect_to(root_path)
+      expect(Gram.last.message).to eq(msg)
+    end
+  end
 end

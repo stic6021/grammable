@@ -65,3 +65,4 @@ group :development, :test do
 end
 gem 'jquery-rails', '~> 4.3.5'
 gem 'bootstrap', '~> 4.4.1'
+gem 'simple_form'
