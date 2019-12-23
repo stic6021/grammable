@@ -1,4 +1,9 @@
 require 'rails_helper'
+require 'devise'
+
+RSpec.configure do |config|
+  config.include Devise::Test::ControllerHelpers, :type => :controller
+end
 
 RSpec.describe GramsController, type: :controller do
   describe "grams#index action" do
