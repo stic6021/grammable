@@ -17,7 +17,7 @@ RSpec.describe GramsController, type: :controller do
 
   describe "grams#create action" do
     it "should successfully create a new gram in the database" do
-      msg = "This is a fountain."
+      msg = FactoryBot.create(:gram).message
       post :create, params: { gram: { message: msg } }
       expect(response).to redirect_to(root_path)
       expect(Gram.last.message).to eq(msg)
