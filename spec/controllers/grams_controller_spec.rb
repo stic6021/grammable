@@ -4,11 +4,9 @@ require 'rspec/rails'
 require 'devise'
 
 class GramsControllerTest < ActionController::TestCase
-  include Devise::Test::ControllerHelpers
+  include Devise::Test::IntegrationHelpers
 
   def setup
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-    sign_in FactoryBot.create(:user)
   end
 end
 
@@ -26,6 +24,12 @@ RSpec.describe GramsController, type: :controller do
   end
 
   describe "grams#new action" do
+    it "should redirect to the sign in page if not logged in" do
+      sign_out(@current_user)
+      get :new
+      expect(response).to redirect_to new_user_session_path
+    end
+
     login_user
     it "should successfully show a form to create a new gram" do
       get :new
@@ -34,12 +38,22 @@ RSpec.describe GramsController, type: :controller do
   end
 
   describe "grams#create action" do
+    it "should redirect to the sign in page if not logged in" do
+      sign_out(@current_user)
+      post :create, params: { gram: { message: 'This gram was created without authentication.' } }
+      expect(response).to redirect_to new_user_session_path
+    end
+
     login_user
     it "should successfully create a new gram in the database" do
-      msg = FactoryBot.create(:gram).message
+      initial_count = Gram.count
+      msg = "Grams unit test; message #{rand(100)}"
       post :create, params: { gram: { message: msg } }
       expect(response).to redirect_to(root_path)
-      expect(Gram.last.message).to eq(msg)
+      gram = Gram.last
+      expect(gram.message).to eq(msg)
+      expect(gram.user).to eq @current_user
+      expect(Gram.count).to eq (initial_count + 1)
     end
 
     it "should correctly detect and handle validation errors" do
