@@ -6,8 +6,10 @@ FactoryBot.define do
   end
 
   factory :user do
-    email { 'no_reply@domain.com' }
-    password { 'anything' }
-    encrypted_password { 'k@b;f(r!x+t#'}
+    sequence :email do |n|
+      "no_reply-#{n}@domain.com"
+    end
+    password { "anything-#{rand}" }
+    encrypted_password { 'k@b;f(r!x+t#' }
   end
 end
