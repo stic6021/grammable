@@ -17,7 +17,7 @@ end
 RSpec.describe GramsController, type: :controller do
   describe "grams#show action" do
     it "should show the page if the gram is found" do
-      sign_out(@current_user)
+      sign_out(@current_user) unless @current_user.nil?
       gram = FactoryBot.create(:gram)
       get :show, params: { id: gram.id }
       expect(response).to have_http_status(:success)
