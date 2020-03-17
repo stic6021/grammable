@@ -24,7 +24,7 @@ RSpec.describe GramsController, type: :controller do
     end
 
     it "should return a 404 if the gram is not found" do
-      sign_out(@current_user)
+      sign_out(@current_user) unless @current_user.nil?
       get :show, params: { id: 'TACOCAT' }
       expect(response).to have_http_status(:not_found)
     end
@@ -40,7 +40,7 @@ RSpec.describe GramsController, type: :controller do
 
   describe "grams#new action" do
     it "should redirect to the sign in page if not logged in" do
-      sign_out(@current_user)
+      sign_out(@current_user) unless @current_user.nil?
       get :new
       expect(response).to redirect_to new_user_session_path
     end
@@ -54,7 +54,7 @@ RSpec.describe GramsController, type: :controller do
 
   describe "grams#create action" do
     it "should redirect to the sign in page if not logged in" do
-      sign_out(@current_user)
+      sign_out(@current_user) unless @current_user.nil?
       post :create, params: { gram: { message: 'This gram was created without authentication.' } }
       expect(response).to redirect_to new_user_session_path
     end

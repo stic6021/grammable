@@ -17,7 +17,16 @@ class GramsController < ApplicationController
     @gram = Gram.new
   end
 
+  def show
+    render :show, status: :not_found if current_gram.nil?
+  end
+
   private
+
+  helper_method :current_gram
+  def current_gram
+    @current_gram ||= Gram.find(params[:id]) rescue nil
+  end
 
   def gram_params
     params.require(:gram).permit(:message)
