@@ -4,4 +4,10 @@ FactoryBot.define do
       "From FactoryBot; message #{n}."
     end
   end
+
+  factory :user do
+    email { 'no_reply@domain.com' }
+    password { 'anything' }
+    encrypted_password { 'k@b;f(r!x+t#'}
+  end
 end
