@@ -15,6 +15,21 @@ RSpec.configure do |config|
 end
 
 RSpec.describe GramsController, type: :controller do
+  describe "grams#show action" do
+    it "should show the page if the gram is found" do
+      sign_out(@current_user)
+      gram = FactoryBot.create(:gram)
+      get :show, params: { id: gram.id }
+      expect(response).to have_http_status(:success)
+    end
+
+    it "should return a 404 if the gram is not found" do
+      sign_out(@current_user)
+      get :show, params: { id: 'TACOCAT' }
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe "grams#index action" do
     login_user
     it "should successfully show the page" do

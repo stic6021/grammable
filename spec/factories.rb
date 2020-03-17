@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :gram do
     sequence :message do |n|
-      "From FactoryBot; message #{n}."
+      "Hello from FactoryBot; message #{n}."
     end
+    association :user
   end
 
   factory :user do
